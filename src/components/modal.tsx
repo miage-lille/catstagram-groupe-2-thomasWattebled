@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import ReactDOM from 'react-dom';
 import React from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getSelectedPicture } from '../reducer';
 const Container = styled.div`
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -48,6 +49,11 @@ const Modal = ({ largeFormat, close }: ModalProps) => {
 const portalRoot = document.getElementById('modal');
 
 const ModalPortal = ({ largeFormat, close }: ModalProps) =>
-  portalRoot ? ReactDOM.createPortal(<Modal largeFormat={largeFormat} close={close} />, portalRoot) : null;
+{  const dispatch = useDispatch();
+  const selectedPicture = useSelector(getSelectedPicture);
+
+  if (!selectedPicture) return null; 
+  portalRoot ? ReactDOM.createPortal(<Modal largeFormat={largeFormat} close={close} />, portalRoot) : null;}
 
 export default ModalPortal;
+
