@@ -1,9 +1,11 @@
-import { Loop, liftState } from 'redux-loop';
+import { Loop, liftState, loop } from 'redux-loop';
 import { compose } from 'redux';
 import fakeData from './fake-datas.json';
 import { Picture } from './types/picture.type';
-import { CloseModal, SelectPicture } from './types/actions.type';
-
+import { CloseModal, FetchCatsCommit, FetchCatsRequest, FetchCatsRollback, SelectPicture } from './types/actions.type';
+import { Cmd } from 'redux-loop';
+import { fetchCatsCommit, fetchCatsRequest, fetchCatsRollback } from './actions';
+import { cmdFetch } from './commands';
 export type State = {
   counter: number,
   pictures: Picture[];
@@ -11,7 +13,7 @@ export type State = {
 }
 
 export const defaultState: State = {
-  counter: 0,
+  counter: 3,
   pictures: [],
   selectedPicture: null
 }
@@ -27,6 +29,9 @@ type Actions =
   | Decrement
   | SelectPicture
   | CloseModal
+  | FetchCatsRequest
+  | FetchCatsCommit
+  | FetchCatsRollback;
 
   export const reducer = (state: State | undefined, action: Actions): State | Loop<State> => {
     if (!state) return defaultState;
@@ -35,12 +40,24 @@ type Actions =
     switch (action.type) {
       case 'INCREMENT':
         newCounter = state.counter + 1;
-        break;
+        return loop(
+          { ...state, counter: newCounter },
+          cmdFetch(fetchCatsRequest(newCounter)) 
+        );
       case 'DECREMENT':
         if (state.counter > 3) {
           newCounter = state.counter - 1;
+          return loop(
+            { ...state, counter: newCounter },
+            cmdFetch(fetchCatsRequest(newCounter)))
         }
-        break;
+        return state;
+      case 'FETCH_CATS_COMMIT':
+          return { ...state, pictures: action.payload  };
+    
+      case 'FETCH_CATS_ROLLBACK':
+          console.error("Failed to fetch pictures:", action.error);
+          return state;
       case 'SELECT_PICTURE':
         return {...state, selectedPicture:action.picture}
       case "CLOSE_MODAL":
@@ -48,14 +65,7 @@ type Actions =
       default:
         return state;
     }
-    console.log("New pictures state:", fakeData.slice(0, newCounter));
-
-    return {
-      ...state,
-      counter: newCounter,
-      pictures: fakeData.slice(0, newCounter),
-    };
-  };
+  }
 
 export const counterSelector = (state: State) => state.counter;
 export const picturesSelector = (state: State) => state.pictures;

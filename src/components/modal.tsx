@@ -48,12 +48,21 @@ const Modal = ({ largeFormat, close }: ModalProps) => {
 
 const portalRoot = document.getElementById('modal');
 
-const ModalPortal = ({ largeFormat, close }: ModalProps) =>
-{  const dispatch = useDispatch();
+const ModalPortal = () => {
+  const dispatch = useDispatch();
   const selectedPicture = useSelector(getSelectedPicture);
+  console.log("en grand")
 
-  if (!selectedPicture) return null; 
-  portalRoot ? ReactDOM.createPortal(<Modal largeFormat={largeFormat} close={close} />, portalRoot) : null;}
+  const closeModal = () => {
+    dispatch({ type: "CLOSE_MODAL" });
+  };
 
+  if (!selectedPicture) return null;
+
+  return ReactDOM.createPortal(
+    <Modal largeFormat={selectedPicture.largeImageURL} close={closeModal} />,
+    portalRoot as Element
+  );
+};
 export default ModalPortal;
 

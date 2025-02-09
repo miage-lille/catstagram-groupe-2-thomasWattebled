@@ -5,12 +5,15 @@ import { FetchCatsRequest } from './types/actions.type';
 export const cmdFetch = (action: FetchCatsRequest) =>
   Cmd.run(
     () => {
+      console.log('je passe ici')
       return fetch(action.path, {
         method: action.method,
-      }).then(checkStatus);
+      }).then(checkStatus)
+        .then((response) => response.json());
     },
+    
     {
-      successActionCreator: fetchCatsCommit, // (equals to (payload) => fetchCatsCommit(payload))
+      successActionCreator: (jsonResponse) => fetchCatsCommit(jsonResponse.hits), // (equals to (payload) => fetchCatsCommit(payload))
       failActionCreator: fetchCatsRollback, // (equals to (error) => fetchCatsCommit(error))
     },
   );

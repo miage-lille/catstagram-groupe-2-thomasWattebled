@@ -22,18 +22,19 @@ const Image = styled.img`
 const Pictures = () => {
   const dispatch = useDispatch();
   const pictures = useSelector(picturesSelector);
-
+  console.log(pictures)
   return (
     <div>
       {pictures.map((picture, index) => (
         <img
           key={index}
-          src={picture.previewFormat}
+          src={picture.webformatURL}
           alt={`Preview ${index}`}
           style={{ cursor: "pointer" }}
-          onClick={() => dispatch({ type: "SELECT_PICTURE", payload: picture })}
+          onClick={() => dispatch({ type: "SELECT_PICTURE",  picture })}
         />
       ))}
+      
     </div>
   );
 };

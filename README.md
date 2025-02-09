@@ -20,3 +20,5 @@ Others npm commands :
 This training have two parts:
 1. [Meet TEA](./doc/part1.md)
 2. [Create your catstagram](./doc/part2.md)
+
+mon api:key : 48742029-d23902e14ad5358783cfa16c6
