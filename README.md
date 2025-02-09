@@ -1,3 +1,5 @@
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/pqLSOlWq)
+[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=18022529&assignment_repo_type=AssignmentRepo)
 # Catstagram
 
 The purpose of this training is to practice The Elm Architecture (TEA) with the React ecosystem.
@@ -18,3 +20,5 @@ Others npm commands :
 This training have two parts:
 1. [Meet TEA](./doc/part1.md)
 2. [Create your catstagram](./doc/part2.md)
+
+mon api:key : 48742029-d23902e14ad5358783cfa16c6
